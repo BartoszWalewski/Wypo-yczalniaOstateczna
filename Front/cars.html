@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>CARen - Car Sharing</title>
+    <!-- MDB icon -->
+    <!-- Add yours -->
+    <link rel="icon" href="img/pepe.ico" type="image/x-icon" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="css/mdb.min.css">
+    <!-- Your custom styles (optional) -->
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <!-- Start your project here-->
+    
+    <!--Main Navigation-->
+    <!-- Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-ligt bg-light mb-3">
+      <img src="img/CARen.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="">
+      <a class="navbar-brand mb-0 h1" href="index.html">CARen</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="cars.html">Pojazdy</a>
+          <a class="nav-item nav-link" href="#" id="rentalsButton">Moje wypożyczenia</a>
+        </div>
+        <a class="btn btn-light d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" id="loginButton">Zaloguj</a>
+      </div>
+    </nav>
+    <!--/.Navbar -->
+    <!--Main Navigation-->
+
+    <div class="container">
+    <!--Main layout-->
+    <main>
+    <section id="cards">
+
+    </section>
+    </main>
+    <!--Main layout-->
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+      <!-- Section: Social media -->
+      <section class="d-flex justify-content-center justify-content-lg-between">
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Products
+              </h6>
+              <p>
+                <a href="#!" class="text-reset">Angular</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">React</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Vue</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Laravel</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Useful links
+              </h6>
+              <p>
+                <a href="#!" class="text-reset">Pricing</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset">Policies</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                Contact
+              </h6>
+              <p><i class="fas fa-home"></i> Wrocław, PWr, C-6, s. 129</p>
+              <p>
+                <i class="fas fa-envelope"></i>
+                237129@student.pwr.edu.pl
+              </p>
+              <p>
+                <i class="fas fa-envelope"></i>
+                254585@student.pwr.edu.pl
+              </p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2022 Copyright: Jan Łuczka, Bartosz Walewski
+      </div>
+      <!-- Copyright -->
+    </footer>
+<!-- Footer -->
+
+    <!-- End your project here-->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Your custom scripts (optional) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      var user = sessionStorage.getItem("user");
+      var loginButton = document.getElementById("loginButton");
+      
+      if(user) {
+        console.log(user);
+        loginButton.textContent = "Wyloguj";
+        loginButton.addEventListener('click', function logout() {
+          sessionStorage.removeItem("user");
+          window.location = "index.html"
+        });
+        rentalsButton.addEventListener('click', function navToRentals() {
+          window.location = "user_rentals.html";
+        })
+      } else {
+        console.log("no user");
+        loginButton.addEventListener('click', function login() {
+          window.location = "login.html";
+        });
+        rentalsButton.addEventListener('click', function navToLogin() {
+          window.location = "login.html";
+        })
+      }
+    
+      function addCard(id, brand, model, productionYear) {
+        var section = document.getElementById("cards");
+        var card = document.createElement("div");
+        var cardBody = document.createElement("div");
+        var cardTitle = document.createElement("h5");
+        var cardText = document.createElement("p");
+        var cardButton = document.createElement("a");
+        card.className = "card mb-3";
+        cardBody.className = "card-body";
+        cardTitle.className = "card-title";
+        cardText.className = "card-text";
+        cardButton.className = "btn btn-light";
+        cardTitle.innerText = brand + " " + model;
+        cardText.innerText = productionYear;
+        cardButton.innerText = "Wynajmij";
+        cardButton.id = id;
+        cardButton.onclick = rentCar;
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardText);
+        if(user)
+          cardBody.appendChild(cardButton);
+        card.appendChild(cardBody);
+        section.appendChild(card);
+      }
+
+      function rentCar() {
+        var text = document.getElementById("bookedCar");
+        var id = this.id;
+        var user_id = sessionStorage.getItem("user");
+        //text.innerText = id;
+        addRental(1, id, user_id);
+      }
+
+      function addRental(id, car_id, client_id) {
+        let data = {
+          id: id,
+          car_id: car_id,
+          client_id: client_id,
+          rentalStart: "10/10/2010"
+        }
+        console.log(data);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            loadDoc();
+            alert(this.responseText);
+          }else if(this.readyState == 4){
+              alert(this.statusText);
+          }
+        };
+        xhttp.open("POST", myUrl + "/rental", true);
+        xhttp.setRequestHeader(
+          "Content-type",
+          "application/json; charset=utf-8"
+        );
+        xhttp.send(JSON.stringify(data));
+      }
+
+      let myUrl = "http://localhost:8080";
+
+      function showAllData(msg) {
+        var section = document.getElementById("cards");
+        section.innerHTML = "";
+        $.each(msg, function (id, car) {
+          addCard(car.id, car.brand, car.model, car.productionYear)
+        })
+      }
+
+      // To zwraca car, tylko całą listę
+      // {
+      //   "id": 1,
+      //   "brand": "Astra",
+      //   "model": "Opel",
+      //   "registrationNumber": "WA 12345",
+      //   "productionYear": 1999,
+      //   "vin": "DEF123454321DEF"
+      // }
+
+      // To zwraca rental, tylko całą listę
+      // {
+      //   "id": 2,
+      //   "client_id": 12,
+      //   "car_id": 2,
+      //   "rentalStart": "10/01/2002",
+      //   "rentalEnd": "31/01/2002",
+      //   "ended": true,
+      //   "dailyPrice": 300.0
+      // }
+
+     function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(JSON.parse(this.response));
+            showAllData(JSON.parse(this.response));
+          } else if(this.readyState == 4){
+              // alert(this.statusText);
+          }
+        };
+        xhttp.open("GET", myUrl + "/car", true);
+        //xhttp.open("GET", myUrl + "/rental/client/" + client_id, true); //trzeba dodać to id w funkcji lub skądś wziąć
+        xhttp.send();
+      }
+
+      //inicjacja przy ładowaniu
+      $(document).ready(function () {
+        loadDoc();
+        // var step;
+
+        // for(step = 0; step < 10; step++) {
+        //   addCard(step);
+        // }
+      });
+
+    </script>
+  </body>
+</html>

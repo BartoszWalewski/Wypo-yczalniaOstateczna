@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>CARen - Admin</title>
+    <!-- MDB icon -->
+    <!-- Add yours -->
+    <link rel="icon" href="img/pepe.ico" type="image/x-icon" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="css/mdb.min.css">
+    <!-- Your custom styles (optional) -->
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <!-- Start your project here-->
+    
+    <!--Main Navigation-->
+    <!-- Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-ligt bg-light mb-3">
+      <a class="navbar-brand" href="#">CARen Admin</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#">Samochody<span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="admin_user.html">Wypożyczenia</a>
+        </div>
+        <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" id="loginButton">Wyloguj</a>
+      </div>
+    </nav>
+    <!--/.Navbar -->
+    <!--Main Navigation-->
+
+    <div class="container">
+    <!--Main layout-->
+    <main>
+
+      <section class="mt-3 mb-3">
+        <form>
+          <div class="form-group">
+            <label for="inputCarID">ID</label>
+            <input type="text" class="form-control" id="inputCarID" placeholder="1">
+          </div>
+          <div class="form-group">
+            <label for="inputCarName">Model</label>
+            <input type="text" class="form-control" id="inputCarName" placeholder="Astra">
+          </div>
+          <div class="form-group">
+            <label for="inputCarBrand">Marka</label>
+            <input type="text" class="form-control" id="inputCarBrand" placeholder="Opel">
+          </div>
+          <div class="form-group">
+            <label for="inputCarYear">Rok produkcji</label>
+            <input type="text" class="form-control" id="inputCarYear" placeholder="1997">
+          </div>
+          <button type="button" class="btn btn-primary" onclick=addCar()>Dodaj lub zmień istnejący</button>
+        </form>
+      </section>
+
+      <!-- change to some other separator -->
+      <section id="cards">
+
+      </section>
+    </main>
+    <!--Main layout-->
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+      <!-- Section: Social media -->
+      <section class="d-flex justify-content-center justify-content-lg-between">
+      </section>
+      <!-- Section: Social media -->
+      <!-- Section: Links  -->
+      <section class="">
+      </section>
+      <!-- Section: Links  -->
+      <!-- Copyright -->
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2022 Copyright: Jan Łuczka, Bartosz Walewski
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <!-- End your project here-->
+    <!-- jQuery -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Your custom scripts (optional) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      var user = sessionStorage.getItem("user");
+      var loginButton = document.getElementById("loginButton");
+      
+      if(user) {
+        console.log(user);
+        loginButton.textContent = "Wyloguj";
+        loginButton.addEventListener('click', function logOut() {
+          sessionStorage.removeItem("user");
+          window.location = "index.html"
+        });
+      } else {
+        console.log("no user");
+        loginButton.addEventListener('click', function logIn() {
+          window.location = "login.html";
+        });
+      }
+
+      function addCard(id, model, brand, productionYear) {
+        var section = document.getElementById("cards");
+        var card = document.createElement("div");
+        var cardBody = document.createElement("div");
+        var cardTitle = document.createElement("h5");
+        var cardText = document.createElement("p");
+        var cardButton = document.createElement("a");
+        card.className = "card mb-3";
+        cardBody.className = "card-body";
+        cardTitle.className = "card-title";
+        cardText.className = "card-text";
+        cardButton.className = "btn btn-light";
+        cardTitle.innerText = id + ". " + brand + " " + model + ", " + productionYear;
+        cardButton.innerText = "Usuń";
+        cardButton.id = id;
+        cardButton.onclick = deleteseCar;
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardText);
+        cardBody.appendChild(cardButton);
+        card.appendChild(cardBody);
+        section.appendChild(card);
+      }
+
+      function addCar() {
+        var id = document.getElementById("inputCarID").value;
+        var model = document.getElementById("inputCarName").value;
+        var brand = document.getElementById("inputCarBrand").value;
+        var year = document.getElementById("inputCarYear").value;
+        postCar(id, model, brand, "", "", year);
+      }
+
+      function postCar(id, brand, model, registration_number, vin, production_year) {
+        let data = {
+          id: id,
+          brand: brand,
+          model, model,
+          registrationNumber: registration_number,
+          VIN: vin,
+          productionYear: production_year
+        }
+        console.log(data);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 201) {
+            loadDoc();
+            alert(this.responseText);
+          } else if(this.readyState == 4){
+              alert(this.statusText);
+          }
+        };
+        xhttp.open("POST", myUrl + "/car", true);
+        xhttp.setRequestHeader(
+          "Content-type",
+          "application/json; charset=utf-8"
+        );
+        xhttp.send(JSON.stringify(data));
+      }
+
+      function deleteseCar() {
+        var id = this.id;
+        console.log(id);
+        deleteCar(id)
+      }
+
+      function deleteCar(id) {
+        let confirmed = confirm("Czy na pewno chcesz usunąć ten pojazd?");
+        if (confirmed) {
+          let xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              loadDoc();
+              alert(this.responseText);
+            }else if(this.readyState == 4){
+              alert(this.statusText);
+            }
+          };
+          xhttp.open("DELETE", myUrl + "/car/" + id, true);
+          console.log(xhttp);
+          xhttp.send();
+        }
+      }
+
+      let myUrl = "http://localhost:8080";
+
+      function showAllData(msg) {
+        var section = document.getElementById("cards");
+        section.innerHTML = "";
+        $.each(msg, function (id, car) {
+          console.log(car)
+          addCard(car.id, car.model, car.brand, car.productionYear)
+        })
+      }
+
+
+     function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(JSON.parse(this.response));
+            showAllData(JSON.parse(this.response));
+          } else if(this.readyState == 4){
+              // alert(this.statusText);
+          }
+        };
+        xhttp.open("GET", myUrl + "/car", true);
+        //xhttp.open("GET", myUrl + "/rental/client/" + client_id, true); //trzeba dodać to id w funkcji lub skądś wziąć
+        xhttp.send();
+      }
+
+      //inicjacja przy ładowaniu
+      $(document).ready(function () {
+        loadDoc();
+      });
+    </script>
+  </body>
+</html>
